@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8
+    container_name: opencart-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:${DB_PORT}:3306"
+
+  web:
+    build: .
+    container_name: opencart-site
+    restart: always
+    working_dir: /var/www/html
+    ports:
+      - "127.0.0.1:${WEB_PORT}:80"
+    volumes:
+      - ./html:/var/www/html
+      - ./apache.conf:/etc/apache2/conf-enabled/dev.rincom.conf
+      - ./php.ini:/usr/local/etc/php/conf.d/99-custom.ini
+    depends_on:
+      - db
+
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    container_name: opencart-pma
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      PMA_ABSOLUTE_URI: https://test.xpro.com.ua/phpmyadmin/
+    ports:
+      - "127.0.0.1:${PMA_PORT}:80"
+    depends_on:
+      - db
