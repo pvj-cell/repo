@@ -43,12 +43,13 @@
       </div>
     </div>
     <hr>
-    <p>{{ powered }}</p>
-    <!--
-OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
-Please donate via PayPal to donate@opencart.com
-//-->
-  </div>
+<p>{{ powered }}</p>
+<hr>
+<div style="background: #28a745; color: white; padding: 10px; text-align: center; border-radius: 5px;">
+    <strong>Auto-Deploy</strong><br>
+    <br>
+    Час деплою: {{ "now"|date("d.m.Y H:i:s") }}
+</div>
 </footer>
 {{ cookie }}
 <script src="{{ bootstrap }}" type="text/javascript"></script>
